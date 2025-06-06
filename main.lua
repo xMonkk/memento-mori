@@ -1,6 +1,5 @@
 local hwid = gethwid()
-
-
+print("got hwid:"..hwid)
 
 local function encodeHwid(str)
 
@@ -64,8 +63,8 @@ end
 
 local codedHwid = encodeHwid(hwid)
 local real_hwid = game:HttpGet("https://candy-ablaze-marionberry.glitch.me/?key=".._G.Key)
-
-if #codedHwid ~= #real_hwid then return end
+print("got real hwid:"..real_hwid)
+if #codedHwid ~= #real_hwid then print("THEY DONT MATCH") return end
 local count = 0
 for i = 1,#codedHwid do
     if string.byte(codedHwid:sub(i, i)) == string.byte(real_hwid:sub(i,i)) then
