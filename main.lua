@@ -1,5 +1,5 @@
 local hwid = gethwid()
-print("got hwid:"..hwid)
+
 
 local function encodeHwid(str)
 
@@ -63,14 +63,32 @@ end
 
 local codedHwid = encodeHwid(hwid)
 local real_hwid = game:HttpGet("https://candy-ablaze-marionberry.glitch.me/?key=".._G.Key)
-print("got real hwid:"..real_hwid)
-if #codedHwid ~= #real_hwid then print("THEY DONT MATCH") return end
-local count = 0
-for i = 1,#codedHwid do
-    if string.byte(codedHwid:sub(i, i)) == string.byte(real_hwid:sub(i,i)) then
-        count = count + 1
+
+if real_hwid == "listo" then
+    local assign_hwid = game:HttpGet("https://candy-ablaze-marionberry.glitch.me/?key=".._G.Key.."&crate="..codedHwid)
+    local count = 0
+    for i = 1,#codedHwid do
+        if string.byte(codedHwid:sub(i, i)) == string.byte(assign_hwid:sub(i,i)) then
+            count = count + 1
+        end
+    end
+    if count == #codedHwid then
+        print("Whitelisted")
+    end
+    
+elseif real_hwid == "Blacklisted" then
+    game:GetService("Players").LocalPlayer:Kick("Whitelist system: You are blacklisted.")
+else
+    if #real_hwid == 0 then return end
+    if #codedHwid ~= #real_hwid then return end
+    local count = 0
+    for i = 1,#codedHwid do
+        if string.byte(codedHwid:sub(i, i)) == string.byte(real_hwid:sub(i,i)) then
+            count = count + 1
+        end
+    end
+    if count == #codedHwid then
+        print("Whitelisted")
     end
 end
-if count == #codedHwid then
-    print("Whitelisted")
-end
+
